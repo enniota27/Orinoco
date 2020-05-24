@@ -12,14 +12,24 @@ request.onreadystatechange = function() { // fonction qui sera appelée à chaqu
         document.getElementById(listeId[i]).addEventListener('click', function(event) { // écoute les évenements qui contient notre Id, càd nos liens, si il y a click alors on exécute la fonction
             for (let k in response){ // parcourt notre JSON
                 if (response[k]._id == listeId[i]){ // quand l'Id de l'évènement est retrouvé dans notre JSON, alors :
-                    produitObjet = response[k]; // on y stocke le nom, le price, l'image,... correspondant à Id de l'évenement
+                    localStorage.setItem('test' , JSON.stringify(response[k])); // on y stocke le nom, le price, l'image,... correspondant à Id de l'évenement
                 };
             };
       });
     };
     if (document.getElementById('name') != null){
-        document.getElementById('name').innerHTML = "Récupérer nom produit" ; // Je voudrai récupéré : produitObjet.name
+        localStorageJSON = localStorage.getItem('test');
+        objetProduit = localStorageJSON && JSON.parse(localStorageJSON);
+        document.getElementById('main').innerHTML = '<h1>' + objetProduit.name + '</h1>' + '<img src="' + objetProduit.imageUrl + '" alt="' + objetProduit.name + '">' + '<p> Prix : ' + objetProduit.price + '</p><p> Description : ' +  objetProduit.description + '</p>' + '<label>Choix des couleurs : ' + colorsListeHTML(objetProduit.colors) + '</label><br><br><input type="submit" value="Ajouter au panier">';
     }
 };
 request.open("GET", "http://localhost:3000/api/teddies"); // récuperation des données de API
 request.send(); // envoie la requête
+
+function colorsListeHTML (liste) {
+    let listeDeroulante = '<select id="monselect">';
+    for (let color in liste){
+        listeDeroulante += '<option value="' + liste[color] + '">' + liste[color] + '</option>';
+    }
+    return listeDeroulante + '</select>';
+}
