@@ -1,14 +1,52 @@
 <!DOCTYPE html>
-    <html>
+    <html lang="fr-fr">
         <head>
             <meta charset="utf-8"/>
             <link rel="stylesheet" href="style.css">
             <script src="script.js" defer></script>
-            <title id="nom_du_produit"></title>
+            <title>Mon panier</title>
         </head>
         <body>
             <div id="main">
-                <h1 id="name"></h1>
+                <a href="index.html">Continuez mes achats</a>
+                <h1>Votre panier</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nom du produit</th>
+                            <th>Description</th>
+                            <th>Prix</th>
+                        </tr>
+                        <!--
+                            <tr>
+                                <td>Image du produit 1</td>
+                                <td>Nom du produit 1</td>
+                                <td>Description du produit 1</td>
+                                <td>Prix du produit 1</td>
+                            </tr>
+                            <tr>
+                                <td>Image du produit 2</td>
+                                ...
+                            ...
+                        -->
+                    </thead>
+                    <tbody id="corps-tableau">
+                    </tbody>
+                </table>
+                <h2>Vos coordonnées</h2>   
+                <form method="post" action="">
+                    <label for="nom">Nom : </label><input id="nom" type="text" name="name" placeholder="Votre nom">
+                    <label for="firstname">Prénom : </label><input id="firstname" type="text" name="firstname" placeholder="Votre prénom">
+                    <br>
+                    <label for="email">Email : </label><input id="email" type="text" name="email" placeholder="Votre email">
+                    <label for="phone">Téléphone : </label><input id="phone" type="tel" name="phone" placeholder="Votre téléphone">
+                    <br>
+                    <label for="adresse">Adresse : </label><textarea id="adresse" name="adresse" placeholder="Votre adresse" rows="2"></textarea>
+                    <label for="ville">Ville : </label><input id="ville" name="ville" placeholder="Votre ville"></input>
+                    <br>
+                    <input type="submit" value="Valider votre commande">
+                </form> 
             </div>
         </body>
     </html>
