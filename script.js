@@ -12,25 +12,38 @@ request.onreadystatechange = function() { // fonction qui sera appelée à chaqu
         document.getElementById(listeId[i]).addEventListener('click', function(event) { // écoute les évenements qui contient notre Id, càd nos liens, si il y a click alors on exécute la fonction
             for (let k in response){ // parcourt notre JSON
                 if (response[k]._id == listeId[i]) { // quand l'Id de l'évènement est retrouvé dans notre JSON, alors :
-                    localStorage.setItem('test' , JSON.stringify(response[k])); // on y stocke le nom, le price, l'image,.. correspondant à Id de l'évenement
+                    localStorage.setItem('produit' , JSON.stringify(response[k])); // on y stocke le nom, le price, l'image,.. correspondant à Id de l'évenement
+                    break;
                 };
             };
       });
     };
     if (document.getElementById('name') != null){
-        localStorageJSON = localStorage.getItem('test');
+        localStorageJSON = localStorage.getItem('produit');
         objetProduit = localStorageJSON && JSON.parse(localStorageJSON);
         document.getElementById('main').innerHTML = '<h1>' + objetProduit.name + '</h1>' + '<img src="' + objetProduit.imageUrl + '" alt="' + objetProduit.name + '">' + '<p> Prix : ' + affichagePrix(objetProduit.price) + '</p><p> Description : ' +  objetProduit.description + '</p>' + '<label>Choix des couleurs : ' + colorsListeHTML(objetProduit.colors) + '</label><br><br><input id="bouton" type="submit" value="Ajouter au panier">';
         document.getElementById('nom_du_produit').innerHTML = objetProduit.name ;
         document.getElementById('bouton').addEventListener('click', function(event) {
+            let i = 1
+            while (localStorage.getItem(i)){
+                i += 1;
+            }
+            localStorage.setItem(i,JSON.stringify(objetProduit));
             document.location.href="panier.html";
         });
     }
     if (document.getElementById('corps-tableau') != null){
-        localStorageJSON = localStorage.getItem('test');
-        objetProduit = localStorageJSON && JSON.parse(localStorageJSON);
-        document.getElementById('corps-tableau').innerHTML = "<tr><td>image</td><td>" + objetProduit.name + "</td><td>" + + objetProduit.description + "</td><td>" + affichagePrix(objetProduit.price) + "</td></tr>";
-    }
+        let prixTotal = 0;
+        for(let index = 1; index<localStorage.length; index++){
+            localStorageJSON = localStorage.getItem(index);
+            objetProduit = localStorageJSON && JSON.parse(localStorageJSON);
+            document.getElementById('corps-tableau').innerHTML += "<tr><td><img src='" + objetProduit.imageUrl + "'/></td><td>" + objetProduit.name + "</td><td>" + objetProduit.description + "</td><td>" + affichagePrix(objetProduit.price) + "</td></tr>";
+            prixTotal += objetProduit.price;
+            console.log(typeof(objetProduit.price));
+            document.getElementById('prix-total').innerHTML = "Prix total : " + affichagePrix(prixTotal);
+        };
+    };
+    
 };
 request.open("GET", "http://localhost:3000/api/teddies"); // récuperation des données de API
 request.send(); // envoie la requête
@@ -53,3 +66,4 @@ function affichagePrix(nombre) {
         return unites + "," + centimes + " €";
     }
 }
+

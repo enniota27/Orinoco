@@ -18,6 +18,11 @@
                             <th>Description</th>
                             <th>Prix</th>
                         </tr>
+                    </thead>
+                    <tfoot>
+                        <th id="prix-total" colspan=4>Panier vide</th>
+                    </tfoot>
+                    <tbody id="corps-tableau">
                         <!--
                             <tr>
                                 <td>Image du produit 1</td>
@@ -30,20 +35,18 @@
                                 ...
                             ...
                         -->
-                    </thead>
-                    <tbody id="corps-tableau">
                     </tbody>
                 </table>
                 <h2>Vos coordonnées</h2>   
                 <form method="post" action="">
-                    <label for="nom">Nom : </label><input id="nom" type="text" name="name" placeholder="Votre nom">
-                    <label for="firstname">Prénom : </label><input id="firstname" type="text" name="firstname" placeholder="Votre prénom">
+                    <label>Nom : <input id="nom" type="text" name="name" placeholder="Votre nom"></label>
+                    <label>Prénom : <input id="firstname" type="text" name="firstname" placeholder="Votre prénom"></label>
                     <br>
-                    <label for="email">Email : </label><input id="email" type="text" name="email" placeholder="Votre email">
-                    <label for="phone">Téléphone : </label><input id="phone" type="tel" name="phone" placeholder="Votre téléphone">
+                    <label>Email : <input id="email" type="text" name="email" placeholder="Votre email"></label>
+                    <label>Téléphone : <input id="phone" type="tel" name="phone" placeholder="Votre téléphone"></label>
                     <br>
-                    <label for="adresse">Adresse : </label><textarea id="adresse" name="adresse" placeholder="Votre adresse" rows="2"></textarea>
-                    <label for="ville">Ville : </label><input id="ville" name="ville" placeholder="Votre ville"></input>
+                    <label>Adresse : <textarea id="adresse" name="adresse" placeholder="Votre adresse" rows="2"></textarea></label>
+                    <label>Ville : <input id="ville" name="ville" placeholder="Votre ville"></label>
                     <br>
                     <input type="submit" value="Valider votre commande">
                 </form> 
