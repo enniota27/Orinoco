@@ -38,17 +38,16 @@
                     </tbody>
                 </table>
                 <h2>Vos coordonnées</h2>   
-                <form method="post" action="">
-                    <label>Nom : <input id="nom" type="text" name="name" placeholder="Votre nom"></label>
-                    <label>Prénom : <input id="firstname" type="text" name="firstname" placeholder="Votre prénom"></label>
+                <form method="post" action="confirmation.html">
+                    <label>Nom* : <input id="nom" type="text" name="name" placeholder="Votre nom" required></label>
+                    <label>Prénom* : <input id="firstname" type="text" name="firstname" placeholder="Votre prénom" required></label>
                     <br>
-                    <label>Email : <input id="email" type="text" name="email" placeholder="Votre email"></label>
-                    <label>Téléphone : <input id="phone" type="tel" name="phone" placeholder="Votre téléphone"></label>
+                    <label>Email* : <input id="email" type="email" name="email" placeholder="Votre email" required></label>
                     <br>
-                    <label>Adresse : <textarea id="adresse" name="adresse" placeholder="Votre adresse" rows="2"></textarea></label>
-                    <label>Ville : <input id="ville" name="ville" placeholder="Votre ville"></label>
+                    <label>Adresse* : <textarea id="adresse" type="text" name="adresse" placeholder="Votre adresse" rows="2" required></textarea></label>
+                    <label>Ville* : <input id="ville" type="text" name="ville" placeholder="Votre ville" required></label>
                     <br>
-                    <input type="submit" value="Valider votre commande">
+                    <input id="submit-btn" type="submit" value="Valider votre commande">
                 </form> 
             </div>
         </body>

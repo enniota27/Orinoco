@@ -43,6 +43,15 @@ request.onreadystatechange = function() { // fonction qui sera appelée à chaqu
             document.getElementById('prix-total').innerHTML = "Prix total : " + affichagePrix(prixTotal);
         };
     };
+    if (document.getElementById('submit-btn') != null){
+        document.getElementById('submit-btn').addEventListener('click', function(event) {
+            //window.alert("Test");
+            //request.open("POST", URL...);
+            //request.setRequestHeader("Content-type", "application/json");
+            //request.send(JSON.stringify( objet... ));
+
+        });
+    }
     
 };
 request.open("GET", "http://localhost:3000/api/teddies"); // récuperation des données de API
