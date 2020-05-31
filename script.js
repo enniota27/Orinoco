@@ -16,12 +16,13 @@ request.onreadystatechange = function() {
             }
             document.getElementById('liste_des_produits').innerHTML += temp;
         }
-        if (document.getElementById('test_url') != null){
+        if (document.getElementById('produit') != null){
             let id = new URL(location.href).searchParams.get('id');
             for (let i in response){
                 if (response[i]._id == id){
                     var produit = response[i];
-                    document.getElementById('test_url').innerHTML = affichageProduit(response,i) + '<label>Choix des couleurs : ' + colorsListeHTML(response[i].colors) + '</label><br><br><input id="bouton" type="submit" value="Ajouter au panier">';
+                    document.getElementById('produit').innerHTML = affichageProduit(response,i,'<label>Choix des couleurs : ' + colorsListeHTML(response[i].colors) + '</label><br><br><input id="bouton" type="submit" value="Ajouter au panier">');
+                    document.getElementById('titre').innerHTML = document.getElementById('nom_du_produit').innerHTML = response[i].name;
                     break;
                 }
             }
@@ -35,19 +36,41 @@ request.onreadystatechange = function() {
             });
         }
 }};
-   
-    
-
     if (document.getElementById('corps-tableau') != null){
         let prixTotal = 0;
         for(let index = 0; index<localStorage.length; index++){
             localStorageJSON = localStorage.getItem(index);
             objetProduit = localStorageJSON && JSON.parse(localStorageJSON);
-            document.getElementById('corps-tableau').innerHTML += "<tr><td><img src='" + objetProduit.imageUrl + "'/></td><td>" + objetProduit.name + "</td><td>" + objetProduit.description + "</td><td>" + affichagePrix(objetProduit.price) + "</td></tr>";
+            document.getElementById('corps-tableau').innerHTML += "<tr><td class='align-middle'><img src='" + objetProduit.imageUrl + "'/></td><td class='align-middle'><div class='font-weight-bold'>" + objetProduit.name + '</div><p>' + objetProduit.description + "</p></td><td class='align-middle'>" + affichagePrix(objetProduit.price) + "</td><td class='align-middle'>" + '<button type="button" class="btn btn-danger" id="bouton-supp-' + index + '">Supprimer</button>' + "</td></tr>";
             prixTotal += objetProduit.price;
             document.getElementById('prix-total').innerHTML = "Prix total : " + affichagePrix(prixTotal);
         };
     };
+if (document.getElementById('corps-tableau') != null){
+    let max = localStorage.length;
+    for (let index = 0; index<max; index++){
+        document.getElementById('bouton-supp-' + index).addEventListener('click', function(event) {
+            localStorage.removeItem(index);
+            for (index; index<max; index++){
+                //localStorage.setItem(index-1,localStorage.getItem(index));
+                console.log(index);
+                if(localStorage.getItem(index+1) != null) {
+                    localStorage.setItem(index,localStorage.getItem(index+1))
+                }
+                else{
+                    localStorage.removeItem(index);
+                }
+                document.location.href="panier.html";
+            }
+
+        });
+    }
+
+    
+}
+
+
+
     if (document.getElementById('submit-btn') != null){
         document.getElementById('submit-btn').addEventListener('click', function(event) {
             //window.alert("Test");
@@ -81,6 +104,11 @@ function affichagePrix(nombre) {
     }
 }
 
-function affichageProduit(response,i) {
-    return '<div class="col-12 col-lg-4"><div class="card"><img class="card-img-top" src="'+ response[i].imageUrl +'" alt="' + response[i].name + '"><div class="card-body"><h5 class="card-title">' + response[i].name + '</h5><p class="card-text">' + response[i].description + '</p><p class="card-text">Prix : ' + affichagePrix(response[i].price) + '</p><a class="stretched-link" href="produit.html?id=' + response[i]._id + '"></a></div></div></div>'
+function affichageProduit(response,i,complement="") {
+    if (complement == ""){
+        return '<div class="col-12 col-lg-4"><div class="card"><img class="card-img-top" src="'+ response[i].imageUrl +'" alt="' + response[i].name + '"><div class="card-body"><h5 class="card-title">' + response[i].name + '</h5><p class="card-text">' + response[i].description + '</p><p class="card-text">Prix : ' + affichagePrix(response[i].price) + '</p><a class="stretched-link" href="produit.html?id=' + response[i]._id + '"></a></div></div></div>'
+    }
+    else{
+        return '<div class="col-12 col-lg-8"><div class="card"><img class="card-img-top" src="'+ response[i].imageUrl +'" alt="' + response[i].name + '"><div class="card-body"><h5 class="card-title">' + response[i].name + '</h5><p class="card-text">' + response[i].description + '</p><p class="card-text">Prix : ' + affichagePrix(response[i].price) + '</p>' + complement + '</div></div></div>'
+    }
 };
