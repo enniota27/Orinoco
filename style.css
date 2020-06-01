@@ -7,9 +7,52 @@ img{
     min-width: 100px;
 }
 
-
-
-input:invalid {
+/*input:invalid {
     border: 2px solid red;
+  }*/
+
+
+body{
+    background-color: #F9EBEA;
+}
+
+table tbody tr:nth-child(even){
+    background-color: white;
+}
+table tbody tr:nth-child(odd) {
+    background-color:#D3D3D3; 
+}
+
+.card{
+    margin-bottom: 30px;
+}
+
+.anim-opacity-scale:hover {
+    opacity: 0.75;
+    transform: scale(1.1);
+    transition: transform 250ms ease-in-out, opacity 200ms ease-in-out;
+
   }
+
+#bouton{
+    background-image: url(images/shopping-cart.svg);
+    background-repeat: no-repeat;
+    background-size: 25px;
+    padding-left:40px;
+    background-position: 5% 50%;
+}
+
+#formulaire{
+    display: none;
+}
+
+@media all and (max-width: 768px) {
+    .invisible-768{
+        display: none;
+    }
+}
+
+form :valid {
+    box-shadow: 0 0 2px 1px green;
+ }
 
