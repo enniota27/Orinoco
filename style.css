@@ -1,58 +1,76 @@
-img{
-    width: 200px;
-    height: auto;
+/* Redimensionne les images pour le tableau panier */
+img {
+	width: 200px;
+	height: auto;
 }
 
-.min-larg{
-    min-width: 100px;
+/* Largeur min pour la colonne prix du tableau panier */
+.min-larg {
+	min-width: 100px;
 }
 
-/*input:invalid {
-    border: 2px solid red;
-  }*/
-
-
-body{
-    background-color: #F9EBEA;
+/* Couleur d'arrière plan */
+body {
+	background-color: #F9EBEA;
 }
 
-table tbody tr:nth-child(even){
-    background-color: white;
+/* Couleur blanc pour les lignes paires du tableau panier  */
+table tbody tr:nth-child(even) {
+	background-color: white;
 }
+
+/* Couleur gris clair pour les lignes impaires du tableau panier  */
 table tbody tr:nth-child(odd) {
-    background-color:#D3D3D3; 
+	background-color: #D3D3D3;
 }
 
-.card{
-    margin-bottom: 30px;
+/* Espacement en bas des cards  */
+.card {
+	margin-bottom: 30px;
 }
 
+/* Animation (opacity + scale)  au survol des cards  */
 .anim-opacity-scale:hover {
-    opacity: 0.75;
-    transform: scale(1.1);
-    transition: transform 250ms ease-in-out, opacity 200ms ease-in-out;
-
-  }
-
-#bouton{
-    background-image: url(images/shopping-cart.svg);
-    background-repeat: no-repeat;
-    background-size: 25px;
-    padding-left:40px;
-    background-position: 5% 50%;
+	opacity: 0.75;
+	transform: scale(1.1);
+	transition: transform 250ms ease-in-out, opacity 200ms ease-in-out;
 }
 
-#formulaire{
-    display: none;
+/* Image du caddie sur le bouton ajouter au panier  */
+#bouton {
+	background-image: url(images/shopping-cart.svg);
+	background-repeat: no-repeat;
+	background-size: 25px;
+	padding-left: 40px;
+	background-position: 5% 50%;
+}
+
+/* Par défaut : cacher le formulaire. Modification si le panier est non vide */
+#formulaire {
+	display: none;
+}
+
+/* Ombre vert sur les inputs valide */
+form :valid {
+	box-shadow: 0 0 2px 1px green;
 }
 
 @media all and (max-width: 768px) {
-    .invisible-768{
-        display: none;
-    }
+	/* Cache les images du tableau panier */
+	.invisible-768 {
+		display: none;
+	}
 }
 
-form :valid {
-    box-shadow: 0 0 2px 1px green;
- }
-
+@media all and (max-width: 375px) {
+	/* Diminue la taille de police du tableau */
+	table {
+		font-size: 12px;
+	}
+	
+	/* Diminue la taille du bouton "supprimer" et cache le texte du bouton qui dépasse */
+	.btn-size {
+		width: 70px;
+		overflow: hidden;
+	}
+}
