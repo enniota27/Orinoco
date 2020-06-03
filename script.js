@@ -1,3 +1,25 @@
+/*function asyncFonction (url) {
+    return (new Promise ((resolve, reject) => {
+        var request;
+        request = new XMLHttpRequest ();
+        request.onreadystatechange = function() {
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200)
+                return ;
+            if (request.status != 200)
+                reject (`Erreur de connecion à l'API`);
+            else
+                resolve (request.responseText);
+        }
+        request.open ("GET", url);
+        request.send ();
+    }));
+}
+
+asyncF("http://localhost:3000/api/teddies")*/
+
+
+
+
 let request = new XMLHttpRequest();
 request.onreadystatechange = function() {
 	if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
@@ -102,7 +124,6 @@ function colorsListeHTML(liste) {
 		return "Couleur : " + liste;
 	}
 }
-
 function affichagePrix(nombre) {
 	let centimes = nombre % 100;
 	let unites = Math.trunc(nombre / 100);
@@ -112,7 +133,6 @@ function affichagePrix(nombre) {
 		return unites + "," + centimes + " €";
 	}
 }
-
 function affichageProduit(response, i, complement = "") {
 	if (complement === "") {
 		return '<div class="col-12 col-md-4"><div class="card shadow anim-opacity-scale"><img class="card-img-top" src="' + response[i].imageUrl + '" alt="' + response[i].name + '"><div class="card-body"><h2 class="card-title h5">' + response[i].name + '</h2><p class="card-text">' + response[i].description + '</p><p class="card-text font-weight-bold">Prix : ' + affichagePrix(response[i].price) + '</p><a class="stretched-link" href="produit.html?id=' + response[i]._id + '"></a></div></div></div>'
