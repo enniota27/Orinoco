@@ -1,21 +1,24 @@
-/*function asyncFonction (url) {
-    return (new Promise ((resolve, reject) => {
+/*async function asyncFonction(url) {
+    return (await new Promise ((resolve, reject) => {
         var request;
         request = new XMLHttpRequest ();
         request.onreadystatechange = function() {
             if (this.readyState == XMLHttpRequest.DONE && this.status == 200)
                 return ;
-            if (request.status != 200)
-                reject (`Erreur de connecion à l'API`);
-            else
+			if (request.status != 200){
+				console.log(request.status);
+                reject (`Erreur de connexion à l'API`);
+            }else{
+				console.log(request.status);
                 resolve (request.responseText);
-        }
+		}}
         request.open ("GET", url);
         request.send ();
     }));
 }
 
-asyncF("http://localhost:3000/api/teddies")*/
+let plot = asyncFonction("http://localhost:3000/api/teddies");
+console.log(plot);*/
 
 
 
@@ -25,10 +28,8 @@ request.onreadystatechange = function() {
 	if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 		var response = JSON.parse(this.responseText);
 		let temp = '';
-		var listeId = [];
 		if (document.getElementById('liste_des_produits') != null) {
 			for (let i in response) {
-				listeId.push(response[i]._id);
 				if (i % 3 == 0) {
 					temp += '</div><div class="row">' + affichageProduit(response, i);
 				} else {
@@ -94,22 +95,31 @@ if (document.getElementById('submit-btn') != null) {
 			email: document.getElementById('email').value,
 			adresse: document.getElementById('adresse').value,
 			codePostal: document.getElementById('postal').value,
-			ville: document.getElementsByTagName('city').value
+			ville: document.getElementById('city').value,
 		};
 		let products = [];
 		for (let index = 0; index < localStorage.length; index++) {
 			localStorageJSON = localStorage.getItem(index);
 			objetProduit = localStorageJSON && JSON.parse(localStorageJSON);
-			products.push(objetProduit._id)
+			products.push(objetProduit._id);
 		}
-		//request.open("POST", "confirmation.html");
-		//request.setRequestHeader("Content-Type", "application/json");
-		//request.send(JSON.stringify(contact, products));
-		//localStorage.clear();
+		let data = {contact: contact, products: products};
+		console.log(JSON.stringify(data));
+		fetch('http://localhost:3000/api/teddies', {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json',},
+			body: JSON.stringify(data),})
+			.then(response => response.json())
+			.then(data => {console.log('Success:', data);})
+			.catch((error) => {console.error('Erreur:', error);
+			window.alert("kjckj");
+		});
+		document.location.href = "confirmation.html";
 	});
 };
 if (document.getElementById('prix-total') != null) {
 	document.getElementById('prix-total').innerHTML = "Prix total : " + affichagePrix(prixTotal);
+	//localStorage.clear();
 }
 request.open("GET", "http://localhost:3000/api/teddies"); // récuperation des données de API
 request.send(); // envoie la requête
