@@ -1,64 +1,62 @@
-/*async function asyncFonction(url) {
-    return (await new Promise ((resolve, reject) => {
-        var request;
-        request = new XMLHttpRequest ();
-        request.onreadystatechange = function() {
-            if (this.readyState == XMLHttpRequest.DONE && this.status == 200)
-                return ;
-			if (request.status != 200){
-				console.log(request.status);
-                reject (`Erreur de connexion à l'API`);
-            }else{
-				console.log(request.status);
-                resolve (request.responseText);
-		}}
-        request.open ("GET", url);
-        request.send ();
-    }));
+function asyncFonction() {
+	return (new Promise((resolve) => {
+		let request = new XMLHttpRequest();
+		request.onreadystatechange = function() {
+			if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+				resolve(JSON.parse(this.responseText));
+				console.log("Connexion à l'API réussie");
+			} else {
+				console.log(`Erreur de connexion à l'API`);
+			}
+		}
+		request.open("GET", 'http://localhost:3000/api/teddies');
+		request.send();
+	}));
 }
 
-let plot = asyncFonction("http://localhost:3000/api/teddies");
-console.log(plot);*/
+/*  Ne marche pas
+let response = await asynFonction();
+*/
 
-
-
-
-let request = new XMLHttpRequest();
-request.onreadystatechange = function() {
-	if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-		var response = JSON.parse(this.responseText);
+test();
+async function test(){
+	let response = await asyncFonction();
+	if (document.getElementById('liste_des_produits') != null) {
 		let temp = '';
-		if (document.getElementById('liste_des_produits') != null) {
-			for (let i in response) {
-				if (i % 3 == 0) {
-					temp += '</div><div class="row">' + affichageProduit(response, i);
-				} else {
-					temp += affichageProduit(response, i);
-				}
+		for (let i in response) {
+			if (i % 3 == 0) {
+				temp += '</div><div class="row">' + affichageProduit(response, i);
+			} else {
+				temp += affichageProduit(response, i);
 			}
-			document.getElementById('liste_des_produits').innerHTML += temp;
 		}
-		if (document.getElementById('produit') != null) {
-			let id = new URL(location.href).searchParams.get('id');
-			for (let i in response) {
-				if (response[i]._id == id) {
-					var produit = response[i];
-					document.getElementById('produit').innerHTML = affichageProduit(response, i, colorsListeHTML(response[i].colors) + '<br><br><input id="bouton" class= "btn btn-success" type="submit" value="Ajouter au panier">');
-					document.getElementById('titre').innerHTML = document.getElementById('nom_du_produit').innerHTML = response[i].name;
-					break;
-				}
-			}
-			document.getElementById('bouton').addEventListener('click', function(event) {
-				let k = 0
-				while (localStorage.getItem(k)) {
-					k += 1;
-				}
-				localStorage.setItem(k, JSON.stringify(produit));
-				document.location.href = "panier.html";
-			});
-		}
+		document.getElementById('liste_des_produits').innerHTML += temp;
 	}
-};
+	if (document.getElementById('produit') != null) {
+		let id = new URL(location.href).searchParams.get('id');
+		for (let i in response) {
+			if (response[i]._id == id) {
+				var produit = response[i];
+				document.getElementById('produit').innerHTML = affichageProduit(response, i, colorsListeHTML(response[i].colors) + '<br><br><input id="bouton" class= "btn btn-success" type="submit" value="Ajouter au panier">');
+				document.getElementById('titre').innerHTML = document.getElementById('nom_du_produit').innerHTML = response[i].name;
+				break;
+			}
+		}
+		document.getElementById('bouton').addEventListener('click', function(event) {
+			let k = 0
+			while (localStorage.getItem(k)) {
+				k += 1;
+			}
+			localStorage.setItem(k, JSON.stringify(produit));
+			document.location.href = "panier.html";
+		});
+	}
+}
+
+
+
+
+
 if (document.getElementById('tableau_panier') != null && localStorage.length != 0) {
 	var prixTotal = 0;
 	document.getElementById('tableau_panier').innerHTML = '<table class="table table-bordered"><caption>Liste des produits dans mon panier</caption><thead class="thead-dark"><tr><th class="align-middle invisible-768">Image</th><th class="align-middle">Description</th><th class="align-middle min-larg">Prix</th><th class="align-middle">Supprimer</th></tr></thead><tbody id="corps-tableau"></tbody><tfoot><th colspan="2"></th><th id="prix-total" class="bg-dark text-white" colspan="2">Panier vide</th></tfoot></table>'
@@ -103,26 +101,28 @@ if (document.getElementById('submit-btn') != null) {
 			objetProduit = localStorageJSON && JSON.parse(localStorageJSON);
 			products.push(objetProduit._id);
 		}
-		let data = {contact: contact, products: products};
-		console.log(JSON.stringify(data));
-		fetch('http://localhost:3000/api/teddies', {
+		fetch('http://localhost:3000/api/teddies/order', {
 			method: 'POST',
-			headers: {'Content-Type': 'application/json',},
-			body: JSON.stringify(data),})
-			.then(response => response.json())
-			.then(data => {console.log('Success:', data);})
-			.catch((error) => {console.error('Erreur:', error);
-			window.alert("kjckj");
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				contact,
+				products
+			}),
+		}).then(response => response.json()).then(response => {
+			let orderId = response.orderId;
+			document.location.href = "confirmation.html";
+		}).catch((error) => {
+			console.error('Erreur:', error);
 		});
-		document.location.href = "confirmation.html";
 	});
 };
 if (document.getElementById('prix-total') != null) {
 	document.getElementById('prix-total').innerHTML = "Prix total : " + affichagePrix(prixTotal);
 	//localStorage.clear();
 }
-request.open("GET", "http://localhost:3000/api/teddies"); // récuperation des données de API
-request.send(); // envoie la requête
+
 function colorsListeHTML(liste) {
 	if (liste.length > 1) {
 		let listeDeroulante = '<label>Choix des couleurs : <select id="monselect">';
@@ -134,6 +134,7 @@ function colorsListeHTML(liste) {
 		return "Couleur : " + liste;
 	}
 }
+
 function affichagePrix(nombre) {
 	let centimes = nombre % 100;
 	let unites = Math.trunc(nombre / 100);
@@ -143,6 +144,7 @@ function affichagePrix(nombre) {
 		return unites + "," + centimes + " €";
 	}
 }
+
 function affichageProduit(response, i, complement = "") {
 	if (complement === "") {
 		return '<div class="col-12 col-md-4"><div class="card shadow anim-opacity-scale"><img class="card-img-top" src="' + response[i].imageUrl + '" alt="' + response[i].name + '"><div class="card-body"><h2 class="card-title h5">' + response[i].name + '</h2><p class="card-text">' + response[i].description + '</p><p class="card-text font-weight-bold">Prix : ' + affichagePrix(response[i].price) + '</p><a class="stretched-link" href="produit.html?id=' + response[i]._id + '"></a></div></div></div>'
