@@ -89,10 +89,10 @@
 					<form method="post">
 						<div class="row">
 							<div class="col-md-6">
-								<label for="name">Nom* :</label> <input class="form-control" id="name" maxlength="50" name="name" placeholder="Votre nom" required="" type="text">
+								<label for="name">Nom* :</label> <input class="form-control" id="name" maxlength="50" name="name" pattern="[^0-9]{1,50}" placeholder="Votre nom" required="" type="text">
 							</div>
 							<div class="col-md-6">
-								<label for="firstname">Prénom* :</label> <input class="form-control" id="firstname" maxlength="50" name="firstname" placeholder="Votre prénom" required="" type="text">
+								<label for="firstname">Prénom* :</label> <input class="form-control" id="firstname" maxlength="50" name="firstname" pattern="[^0-9]{1,50}" placeholder="Votre prénom" required="" type="text">
 							</div>
 							<div class="col-md-6">
 								<label for="email">Email* :</label> <input class="form-control" id="email" maxlength="50" name="email" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" placeholder="Votre email" required="" type="email">
@@ -105,7 +105,7 @@
 								<label for="postal">Code postal* :</label> <input class="form-control" id="postal" max="99999" min="1000" name="postal" placeholder="Votre code postal, ex : 75000" required="" type="number">
 							</div>
 							<div class="col-md-6">
-								<label for="city">Ville* :</label> <input class="form-control" id="city" maxlength="50" name="city" placeholder="Votre ville" required="" type="text">
+								<label for="city">Ville* :</label> <input class="form-control" id="city" maxlength="50" name="city" placeholder="Votre ville" pattern="[^0-9]{1,50}" required="" type="text">
 							</div>
 							<div class="col-md-12">
 								<p><strong>* Ces informations sont requises</strong></p>
