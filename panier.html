@@ -86,20 +86,20 @@
 			<h2>Vos coordonnées</h2><br>
 			<div class="row">
 				<div class="col-lg-12 col-lg-offset-1">
-					<form method="post">
+					<form method="post" id="form">
 						<div class="row">
 							<div class="col-md-6">
-								<label for="name">Nom* :</label> <input class="form-control" id="name" maxlength="50" name="name" pattern="[^0-9]{1,50}" placeholder="Votre nom" required="" type="text">
+								<label for="name">Nom* :</label> <input class="form-control" id="lastName" maxlength="50" name="name" pattern="[^0-9]{1,50}" placeholder="Votre nom" required="" type="text">
 							</div>
 							<div class="col-md-6">
-								<label for="firstname">Prénom* :</label> <input class="form-control" id="firstname" maxlength="50" name="firstname" pattern="[^0-9]{1,50}" placeholder="Votre prénom" required="" type="text">
+								<label for="firstName">Prénom* :</label> <input class="form-control" id="firstName" maxlength="50" name="firstname" pattern="[^0-9]{1,50}" placeholder="Votre prénom" required="" type="text">
 							</div>
 							<div class="col-md-6">
 								<label for="email">Email* :</label> <input class="form-control" id="email" maxlength="50" name="email" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" placeholder="Votre email" required="" type="email">
 							</div>
 							<div class="col-md-12">
 								<label for="adresse">Adresse* :</label> 
-								<textarea class="form-control" id="adresse" maxlength="100" name="adresse" placeholder="Votre adresse" required="" rows="4"></textarea>
+								<textarea class="form-control" id="address" maxlength="100" name="adresse" placeholder="Votre adresse" required="" rows="4"></textarea>
 							</div>
 							<div class="col-md-6">
 								<label for="postal">Code postal* :</label> <input class="form-control" id="postal" max="99999" min="1000" name="postal" placeholder="Votre code postal, ex : 75000" required="" type="number">

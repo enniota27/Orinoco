@@ -45,6 +45,15 @@ table tbody tr:nth-child(odd) {
 	background-position: 5% 50%;
 }
 
+/* Image d'une imprimante sur le bouton imprimer  */
+#print {
+	background-image: url(images/print.svg);
+	background-repeat: no-repeat;
+	background-size: 25px;
+	padding-left: 40px;
+	background-position: 5% 50%;
+}
+
 /* Par défaut : cacher le formulaire. Modification si le panier est non vide */
 #formulaire {
 	display: none;

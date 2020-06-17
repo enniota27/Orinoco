@@ -5,7 +5,7 @@ function connexionAPI() { //Fonction utilisant les promises pour se connecter à
 			if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 				resolve(JSON.parse(this.responseText)); // Recupére les données au formant JSON
 				console.log("Connexion à l'API réussie");
-			} else {
+			} if (this.status >= 400) {
 				console.log(`Erreur de connexion à l'API`);
 			}
 		}
@@ -82,45 +82,53 @@ if (document.getElementById('tableau_panier') && localStorage.length != 0) { // 
 // FORMULAIRE
 if (document.getElementById('submit-btn')) {
 	document.getElementById('submit-btn').addEventListener('click', function(event) {
-		let contact = { // Objet contact
-			nom: document.getElementById('name').value,
-			prenom: document.getElementById('firstname').value,
-			email: document.getElementById('email').value,
-			adresse: document.getElementById('adresse').value,
-			codePostal: document.getElementById('postal').value,
-			ville: document.getElementById('city').value,
-		};
-		let products = []; // Liste id des produits
-		for (let index = 0; index < localStorage.length; index++) {
-			localStorageJSON = localStorage.getItem(index);
-			objetProduit = localStorageJSON && JSON.parse(localStorageJSON);
-			products.push(objetProduit._id);
+		if (document.getElementById('form').checkValidity()) {
+			event.preventDefault();
+			let contact = { // Objet contact
+				firstName: document.getElementById('firstName').value,
+				lastName: document.getElementById('lastName').value,
+				address: document.getElementById('address').value,
+				city: document.getElementById('city').value,
+				email: document.getElementById('email').value,
+			};
+			let products = []; // Liste id des produits
+			for (let index = 0; index < localStorage.length; index++) {
+				localStorageJSON = localStorage.getItem(index);
+				objetProduit = localStorageJSON && JSON.parse(localStorageJSON);
+				products.push(objetProduit._id);
+			}
+			fetch('http://localhost:3000/api/teddies/order', { // Envoie le formulaire à l'API
+				method: 'POST',
+				headers: { // Indication que l'on envoie du JSON
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					contact,
+					products
+				}),
+			}).then(response => response.json()).then(response => {
+				let orderId = response.orderId;
+				localStorage.setItem("orderId", orderId); // Stocke le numéro de commande renvoyé dans localStorage
+				localStorage.setItem("prixTotal", prixTotal); // Stocke le prix totale dans localStorage
+				document.location.href = "confirmation.html"; // Redirection vers la page confirmation
+			}).catch((error) => {
+				console.error('Erreur de la connexxion, veuillez réessayer:', error); //Si l'envoie a échoué, la console renvoie une erreur 
+			});
 		}
-		fetch('http://localhost:3000/api/teddies/order', { // Envoie le formulaire à l'API
-			method: 'POST',
-			headers: { // Indication que l'on envoie du JSON
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				contact,
-				products
-			}),
-		}).then(response => response.json()).then(response => {
-			let orderId = response.orderId;
-			//localStorage.setItem("orderId", orderId); // Stocke le numéro de commande renvoyé dans localStorage
-			//localStorage.setItem("prixTotal", prixTotal); // Stocke le prix totale dans localStorage
-			//document.location.href = "confirmation.html"; // Redirection vers la page confirmation
-		}).catch((error) => {
-			console.error('Erreur de la connexxion, veuillez réessayer:', error); //Si l'envoie a échoué, la console renvoie une erreur 
-		});
 	});
 };
 
 // PAGE CONFIRMATION
-if (document.getElementById('prix-total')) {
-	//document.getElementById('prix-total').innerHTML = "Prix total : " + affichagePrix(localStorage.getItem("prixTotal"));
-	//localStorage.getItem("orderId");
-	//localStorage.clear();
+if (document.getElementById('numero-commande')) {
+	document.getElementById('prix-total').innerHTML += affichagePrix(localStorage.getItem("prixTotal"));
+	document.getElementById('numero-commande').innerHTML += localStorage.getItem("orderId");
+	for (let index = 0; index < localStorage.length-2; index++) { // On parcours localStorage pour ajouter une ligne du tableau à chaque produit
+		localStorageJSON = localStorage.getItem(index);
+		objetProduit = localStorageJSON && JSON.parse(localStorageJSON);
+		document.getElementById('corps-tableau').innerHTML += "<tr><td class='align-middle invisible-768'><img src='" + objetProduit.imageUrl + "' alt='" + objetProduit.name + "'/></td><td class='align-middle'><div class='font-weight-bold'>" + objetProduit.name + '</div><p class="invisible-768">' + objetProduit.description + "</p></td><td class='align-middle font-weight-bold'>" + affichagePrix(objetProduit.price) + "</td></tr>";
+	};
+	document.getElementById('print').addEventListener('click', function(event){window.print()}); // Bouton imprimer
+	localStorage.clear(); //Efface tout les élèments du localStorage
 }
 
 function colorsListeHTML(liste) { // liste = [rouge, vert, bleu]

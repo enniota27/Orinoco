@@ -36,12 +36,20 @@
 			<div class="col">
 				<div class="jumbotron shadow">
 					<h1>Commande validée</h1>
+					<br>
+					<button id="print" class="btn btn-primary">Imprimer</button>
 				</div>
 			</div>
 		</div><img alt="logo d'Orinoco" src="images/logo.png">
 		<h2>Merci pour votre commande</h2><br>
 		<p id="numero-commande">N° de commande : <!-- Renvoie du numéro de commande --></p>
 		<p id="prix-total">Prix total : <!-- Rappel du prix total --></p>
+		<br>
+		<h3>Récapitulatif de votre commande</h3>
+		<br>
+		<div>
+			<table class="table table-bordered"><caption>Liste des produits commandés</caption><thead class="thead-dark"><tr><th class="align-middle invisible-768">Image</th><th class="align-middle">Description</th><th class="align-middle min-larg">Prix</th></tr></thead><tbody id="corps-tableau"></tbody></table>		
+		</div>
     </div>
     <!-- Pied de page bootstrap -->
 	<div class="bg-light mt-5">
@@ -62,7 +70,7 @@
 				</div>
 			</div>
 		</div>
-    </div>
+	</div>
     <!-- Fichier JS bootstrap -->
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js">
 	</script> 
